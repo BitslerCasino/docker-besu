@@ -1,0 +1,41 @@
+version: "3.8"
+
+services:
+  etc:
+    container_name: besuetc-node
+    image: bitsler/docker-besu:latest
+    command:
+      --config-file=/var/lib/besu/config.toml
+    ports:
+      - "127.0.0.1:4545:4545"
+      - "30303:30303"
+    environment:
+      - WALLET_NAME=ETC2-OVH
+      - PM2_PUBLIC_KEY=${PM2_PUBLIC_KEY}
+      - PM2_SECRET_KEY=${PM2_SECRET_KEY}
+    volumes:
+      - "/home/${USER}/.besuetc/:/var/lib/besu/"
+    restart: unless-stopped
+    logging:
+      options:
+        max-size: "8192k"
+        max-file: "5"
+  eth:
+    container_name: besueth-node
+    image: bitsler/docker-besu:latest
+    command:
+      --config-file=/var/lib/besu/config.toml
+    ports:
+      - "127.0.0.1:8545:8545"
+      - "40404:40404"
+    environment:
+      - WALLET_NAME=ETH2-OVH
+      - PM2_PUBLIC_KEY=${PM2_PUBLIC_KEY}
+      - PM2_SECRET_KEY=${PM2_SECRET_KEY}
+    volumes:
+      - "/home/${USER}/.besueth/:/var/lib/besu/"
+    restart: unless-stopped
+    logging:
+      options:
+        max-size: "8192k"
+        max-file: "5"
